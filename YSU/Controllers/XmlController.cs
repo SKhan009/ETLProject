@@ -32,7 +32,7 @@ namespace YSU.Controllers
         [HttpGet]
         public IActionResult ReadXmlFiles()
         {
-            string folderPath = @"/Users/saimakhan/Documents/Repo/YSU/bin/Debug/net7.0/XML";
+            string folderPath = @"/Users/saimakhan/ETLProject/YSU/bin/Debug/net7.0/XML";
 
             // Get all XML files in the specified folder
             string[] xmlFiles = Directory.GetFiles(folderPath, "*.xml");
