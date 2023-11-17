@@ -1,0 +1,228 @@
+﻿@model List<YSU.Models.RootTag>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="text-center">
+            <h1 class="display-4">Award Information</h1>
+        </div>
+
+        @foreach (var item in Model)
+        {
+            <div>
+                <h2 class="mt-5"></h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Title</th>
+                                <th scope="col">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Award Title</th>
+                                <td>@item.Award?.AwardTitle</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Agency</th>
+                                <td>@item.Award?.Agency</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Award Effective Date</th>
+                                <td>@item.Award?.AwardEffectiveDate</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Award Expiration Date</th>
+                                <td>@item.Award?.AwardExpirationDate</td>
+                            </tr>
+                            
+                            <tr>
+                                <th scope="row">Total Intn Amount</th>
+                                <td>@item.Award?.AwardTotalIntnAmount</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Award Amount</th>
+                                <td>@item.Award?.AwardAmount</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Instrument Value</th>
+                                <td>@item.Award?.AwardInstrument?.Value</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Organization Code</th>
+                                <td>@item.Award?.Organization?.Code</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Program Officer Name</th>
+                                <td>@item.Award?.ProgramOfficer?.SignBlockName</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Abstract Narration</th>
+                                <td>@item.Award?.AbstractNarration</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">ARRA Amount</th>
+                                <td>@item.Award?.ARRAAmount</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Transaction Type</th>
+                                <td>@item.Award?.TransactionType</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">CFDA Number</th>
+                                <td>@item.Award?.CFDANumber</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">NSF Par Use Flag</th>
+                                <td>@item.Award?.NSFParUseFlag</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fund Agency Code</th>
+                                <td>@item.Award?.FundAgencyCode</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Award Agency Code</th>
+                                <td>@item.Award?.AwardAgencyCode</td>
+                            </tr>
+                            <tr>
+                                <th>Award ID</th>
+                                <td>@item.Award?.AwardID</td>
+                            </tr>
+                            <tr>
+                                <th>Investigator First Name</th>
+                                <td>@item.Award?.Investigator?.FirstName</td>
+                            </tr>
+                            <tr>
+                                <th>Investigator Last Name</th>
+                                <td>@item.Award?.Investigator?.LastName</td>
+                            </tr>
+                            <tr>
+                                <th>Investigator Middle Initial</th>
+                                <td>@item.Award?.Investigator?.PIMiddleInitial</td>
+                            </tr>
+                            <tr>
+                                <th>Investigator Suffix Name</th>
+                                <td>@item.Award?.Investigator?.PISuffixName</td>
+                            </tr>
+                            <tr>
+                                <th>Investigator Full Name</th>
+                                <td>@item.Award?.Investigator?.PIFullName</td>
+                            </tr>
+                            <tr>
+                                <th>Investigator Email Address</th>
+                                <td>@item.Award?.Investigator?.EmailAddress</td>
+                            </tr>
+                            <tr>
+                                <th>Investigator NSF ID</th>
+                                <td>@item.Award?.Investigator?.NSFID</td>
+                            </tr>
+                            <tr>
+                                <th>Investigator Role Code</th>
+                                <td>@item.Award?.Investigator?.RoleCode</td>
+                            </tr>
+                            <tr>
+                                <th>Institution Name</th>
+                                <td>@item.Award?.Institution?.Name</td>
+                            </tr>
+                            <tr>
+                                <th>Institution City Name</th>
+                                <td>@item.Award?.Institution?.CityName</td>
+                            </tr>
+                            <tr>
+                                <th>Institution Zip Code</th>
+                                <td>@item.Award?.Institution?.ZipCode</td>
+                            </tr>
+                            <tr>
+                                <th>Institution Phone Number</th>
+                                <td>@item.Award?.Institution?.PhoneNumber</td>
+                            </tr>
+                            <tr>
+                                <th>Institution Street Address</th>
+                                <td>@item.Award?.Institution?.StreetAddress</td>
+                            </tr>
+                            <tr>
+                                <th>Institution Street Address 2</th>
+                                <td>@item.Award?.Institution?.StreetAddress2</td>
+                            </tr>
+                            <tr>
+                                <th>Institution Country Name</th>
+                                <td>@item.Award?.Institution?.CountryName</td>
+                            </tr>
+                            <tr>
+                                <th>Institution State Name</th>
+                                <td>@item.Award?.Institution?.StateName</td>
+                            </tr>
+                            <tr>
+                                <th>Institution State Code</th>
+                                <td>@item.Award?.Institution?.StateCode</td>
+                            </tr>
+                            <tr>
+                                <th>Institution Congress District</th>
+                                <td>@item.Award?.Institution?.CongressDistrict</td>
+                            </tr>
+                            <tr>
+                                <th>Institution Congress District Org</th>
+                                <td>@item.Award?.Institution?.CongressDistrictOrg</td>
+                            </tr>
+                            <tr>
+                                <th>Institution Organization UEI Number</th>
+                                <td>@item.Award?.Institution?.OrganizationUEINumber</td>
+                            </tr>
+                            <tr>
+                                <th>Institution Organization Legal Business Name</th>
+                                <td>@item.Award?.Institution?.OrganizationLegalBusinessName</td>
+                            </tr>
+                            <tr>
+                                <th>Institution Organization Parent UEI Number</th>
+                                <td>@item.Award?.Institution?.OrganizationParentUEINumber</td>
+                            </tr>
+                            <tr>
+                                <th>Performance Institution Name</th>
+                                <td>@item.Award?.PerformanceInstitution?.Name</td>
+                            </tr>
+                            <tr>
+                                <th>Performance Institution City Name</th>
+                                <td>@item.Award?.PerformanceInstitution?.CityName</td>
+                            </tr>
+                            <tr>
+                                <th>Performance Institution State Code</th>
+                                <td>@item.Award?.PerformanceInstitution?.StateCode</td>
+                            </tr>
+                            <tr>
+                                <th>Performance Institution ZIP Code</th>
+                                <td>@item.Award?.PerformanceInstitution?.ZipCode</td>
+                            </tr>
+                            <tr>
+                                <th>Performance Institution Congressional District</th>
+                                <td>@item.Award?.PerformanceInstitution?.CongressDistrict</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
+
+
+
