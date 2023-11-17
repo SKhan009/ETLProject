@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Xml.Serialization;
+using MongoDB.Bson;
 
 namespace YSU.Models
 {
@@ -17,6 +18,8 @@ namespace YSU.Models
         // Award class represents the Award element in the XML
         public class Award
         {
+            public ObjectId Id { get; set; }
+
             [XmlElement("AwardTitle")]
             public string? AwardTitle { get; set; }
 
