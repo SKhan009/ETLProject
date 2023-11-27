@@ -61,6 +61,17 @@ namespace YSU.Controllers
                     rootTags.Add(rootTag);
                 }
             }
+            // Filter rootTags based on the searchInstitution parameter
+            if (!string.IsNullOrEmpty(searchState))
+            {
+                rootTags = rootTags
+                    .Where(rt => rt.Award != null &&
+                                 rt.Award.Institution != null &&
+                                 rt.Award.Institution.StateName != null &&
+                                 rt.Award.Institution.StateName.Contains(searchState))
+                    .ToList();
+            }
+
 
             return View(rootTags);
         }

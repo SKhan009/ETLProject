@@ -11,19 +11,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .search-form {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-
+    
     <div class="container">
         <div class="text-center">
             <h1 class="display-4">Award Information</h1>
         </div>
+
+        <form method="get" action="@Url.Action("ReadXmlFiles")" class="search-form">
+            <div class="form-group">
+                <label for="searchState">Search by State:</label>
+                <input type="text" name="searchState" class="form-control" value="@ViewBag.SearchState" />
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+
 
         @foreach (var item in Model)
         {
             <div>
                 <h2 class="mt-5"></h2>
                 <div class="table-responsive">
+
                     <table class="table table-bordered">
                         <thead class="thead-dark">
                             <tr>
@@ -48,7 +64,7 @@
                                 <th scope="row">Award Expiration Date</th>
                                 <td>@item.Award?.AwardExpirationDate</td>
                             </tr>
-                            
+
                             <tr>
                                 <th scope="row">Total Intn Amount</th>
                                 <td>@item.Award?.AwardTotalIntnAmount</td>
