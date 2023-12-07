@@ -18,20 +18,21 @@
     </style>
 </head>
 <body>
-    
+
     <div class="container">
         <div class="text-center">
             <h1 class="display-4">Award Information</h1>
         </div>
-
-        <form method="get" action="@Url.Action("ReadXmlFiles")" class="search-form">
+        <div id="autoSuggestionsContainer"></div>
+        <form method="get" action="@Url.Action("SearchAwards")" class="search-form">
             <div class="form-group">
-                <label for="searchState">Search by State:</label>
-                <input type="text" name="searchState" class="form-control" value="@ViewBag.SearchState" />
+                <label for="searchTerm">Search Awards:</label>
+                <input type="text" name="searchTerm" class="form-control" id="searchTerm" placeholder="Enter search term" />
+                <div id="autoSuggestionsContainer"></div>
             </div>
+
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
-
 
 
         @foreach (var item in Model)
@@ -67,11 +68,11 @@
 
                             <tr>
                                 <th scope="row">Total Intn Amount</th>
-                                <td>@item.Award?.AwardTotalIntnAmount</td>
+                                <td>@("$ " + item.Award?.AwardTotalIntnAmount)</td>
                             </tr>
                             <tr>
                                 <th scope="row">Award Amount</th>
-                                <td>@item.Award?.AwardAmount</td>
+                                <td>@("$ " + item.Award?.AwardAmount)</td>
                             </tr>
                             <tr>
                                 <th scope="row">Instrument Value</th>
@@ -232,10 +233,34 @@
         }
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>$(document).ready(function () {
+            $("#searchTerm").on("input", function () {
+                var searchTerm = $(this).val();
+                if (searchTerm.length > 0) {
+                    fetchAutoSuggestions(searchTerm);
+                } else {
+                    $("#autoSuggestionsContainer").empty();
+                }
+            });
 
+            function fetchAutoSuggestions(searchTerm) {
+                $.ajax({
+                    url: "/Xml/SearchSuggestions",
+                    method: "GET",
+                    data: { searchTerm: searchTerm },
+                    success: function (data) {
+                        $("#autoSuggestionsContainer").html(data);
+                    },
+                    error: function () {
+                        console.error("Error fetching auto-suggestions");
+                    }
+                });
+            }
+        });</script>
+
+    <!-- Bootstrap JS and Popper.js (required for Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
 

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using YSU.Models;
 
@@ -12,6 +14,7 @@ namespace YSU.Controllers
     {
         private readonly MongoDbContext _dbContext;
         private readonly ILogger<XmlController> _logger;
+
 
         public XmlController(MongoDbContext dbContext, ILogger<XmlController> logger)
         {
@@ -27,7 +30,7 @@ namespace YSU.Controllers
         }
 
         [HttpGet]
-        public IActionResult ReadXmlFiles()
+        public IActionResult ReadXmlFiles(string searchTerm)
         {
             // Replace <username>, <password>, <cluster>, and <databaseName> with your actual MongoDB Atlas credentials
             var connectionStringRegular = "mongodb+srv://skhanusa21:Canon700D@cluster0.pba3oyh.mongodb.net/NSF";
@@ -50,30 +53,22 @@ namespace YSU.Controllers
                     XmlSerializer serializer = new XmlSerializer(typeof(RootTag));
                     RootTag rootTag = (RootTag)serializer.Deserialize(fs);
 
-                    // Insert each Award into MongoDB if it exists
-                    if (rootTag.Award != null)
-                    {
-                        dbContextRegular.Awards.InsertOne(rootTag.Award);
-                        dbContextSCRAM.Awards.InsertOne(rootTag.Award);
+                        // Insert each Award into MongoDB if it exists
+                        if (rootTag.Award != null)
+                        {
+                            dbContextRegular.Awards.InsertOne(rootTag.Award);
+                            dbContextSCRAM.Awards.InsertOne(rootTag.Award);
+                        }
+
+                        // Add the deserialized object to the list
+                        rootTags.Add(rootTag);
                     }
-
-                    // Add the deserialized object to the list
-                    rootTags.Add(rootTag);
-                }
+                
             }
-            // Filter rootTags based on the searchInstitution parameter
-            if (!string.IsNullOrEmpty(searchState))
-            {
-                rootTags = rootTags
-                    .Where(rt => rt.Award != null &&
-                                 rt.Award.Institution != null &&
-                                 rt.Award.Institution.StateName != null &&
-                                 rt.Award.Institution.StateName.Contains(searchState))
-                    .ToList();
-            }
-
 
             return View(rootTags);
         }
+
+
     }
-}
+} 

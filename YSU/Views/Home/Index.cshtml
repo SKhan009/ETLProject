@@ -1,9 +1,30 @@
-﻿@{
+﻿@model List<YSU.Models.RootTag>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome YSU !!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            background-color: #DFDEDE;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-center">
+        <h1 class="display-4">Welcome YSU !!</h1>
+        <form action="Xml/ReadXmlFiles" method="get">
+            <button type="submit" class="btn btn-primary mt-3">Click here for Xml Data</button>
+        </form>
+    </div>
+
+    <!-- Your existing content goes here -->
+
+</body>
+</html>
 
