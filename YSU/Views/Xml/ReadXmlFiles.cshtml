@@ -1,7 +1,7 @@
 ﻿@model List<YSU.Models.RootTag>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "ReadXmlFiles";
 }
 
 <!DOCTYPE html>
@@ -24,15 +24,17 @@
             <h1 class="display-4">Award Information</h1>
         </div>
         <div id="autoSuggestionsContainer"></div>
-        <form method="get" action="@Url.Action("SearchAwards")" class="search-form">
+        <form method="get" action="@Url.Action("SearchSuggestions")" class="search-form">
             <div class="form-group">
                 <label for="searchTerm">Search Awards:</label>
                 <input type="text" name="searchTerm" class="form-control" id="searchTerm" placeholder="Enter search term" />
-                <div id="autoSuggestionsContainer"></div>
+                <div id="autoSuggestionsContainer">
+                    <!-- Suggestions will be dynamically added here -->
+                </div>
             </div>
-
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
+
 
 
         @foreach (var item in Model)
@@ -234,8 +236,11 @@
     </div>
 
     <script>$(document).ready(function () {
-            $("#searchTerm").on("input", function () {
-                var searchTerm = $(this).val();
+            $("form.search-form").submit(function (event) {
+                // Prevent the default form submission
+                event.preventDefault();
+
+                var searchTerm = $("#searchTerm").val();
                 if (searchTerm.length > 0) {
                     fetchAutoSuggestions(searchTerm);
                 } else {
@@ -245,18 +250,42 @@
 
             function fetchAutoSuggestions(searchTerm) {
                 $.ajax({
-                    url: "/Xml/SearchSuggestions",
+                    url: "/Xml/ReadXmlFiles",
                     method: "GET",
                     data: { searchTerm: searchTerm },
                     success: function (data) {
-                        $("#autoSuggestionsContainer").html(data);
+                        console.log("Raw Response:", data);
+                        try {
+                            var jsonData = JSON.parse(data);
+                            console.log("Parsed Data:", jsonData);
+                            updateAutoSuggestions(jsonData);
+                        } catch (error) {
+                            console.error("Error parsing JSON response", error);
+                        }
                     },
-                    error: function () {
-                        console.error("Error fetching auto-suggestions");
+                    error: function (error) {
+                        console.error("Error fetching auto-suggestions", error);
                     }
                 });
             }
+
+            function updateAutoSuggestions(suggestions) {
+                var suggestionsContainer = $("#autoSuggestionsContainer");
+                suggestionsContainer.empty();
+
+                // Create a list of suggestions
+                var suggestionList = $("<ul>").addClass("list-group");
+                suggestions.forEach(function (item) {
+                    var listItem = $("<li>").addClass("list-group-item").text(item.Award?.AwardTitle);
+                    suggestionList.append(listItem);
+                });
+
+                // Append the list to the container
+                suggestionsContainer.append(suggestionList);
+            }
         });</script>
+
+
 
     <!-- Bootstrap JS and Popper.js (required for Bootstrap) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

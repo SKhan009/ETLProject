@@ -4,6 +4,8 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection.Emit;
+using System.Runtime.Intrinsics.X86;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using YSU.Models;
@@ -14,12 +16,17 @@ namespace YSU.Controllers
     {
         private readonly MongoDbContext _dbContext;
         private readonly ILogger<XmlController> _logger;
+        private List<RootTag> rootTags = new List<RootTag>();
 
 
         public XmlController(MongoDbContext dbContext, ILogger<XmlController> logger)
         {
             _dbContext = dbContext;
             _logger = logger;
+
+            // Initialize rootTags in the constructor or load it from a data source
+            rootTags = new List<RootTag>();
+
         }
 
         [HttpPost]
@@ -44,7 +51,15 @@ namespace YSU.Controllers
             string folderPath = @"/Users/saimakhan/ETLProject/YSU/bin/Debug/net7.0/XML";
             string[] xmlFiles = Directory.GetFiles(folderPath, "*.xml");
 
-            List<RootTag> rootTags = new List<RootTag>();
+           //Update this line to use the class-level rootTags
+
+            rootTags = new List<RootTag>();
+
+            // Call SearchSuggestions method to get search suggestions
+            var searchResults = SearchSuggestions(searchTerm) as JsonResult;
+
+            // Access the search suggestions from the JsonResult
+            var suggestions = searchResults?.Value as List<RootTag>;
 
             foreach (string filePath in xmlFiles)
             {
@@ -67,6 +82,28 @@ namespace YSU.Controllers
             }
 
             return View(rootTags);
+        }
+
+        public JsonResult SearchSuggestions(string searchTerm)
+        {
+            // Check if searchTerm is null or empty
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                // Return an empty list or handle as needed
+                return Json(new List<RootTag>());
+            }
+
+            // Perform a search based on the searchTerm
+            // This can include filtering the rootTags list based on your search logic
+
+            var searchResults = rootTags
+                .Where(tag =>
+                    (tag.Award?.AwardTitle.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (tag.Award?.Institution?.StateCode.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false)
+                )
+                .ToList();
+
+            return Json(searchResults);
         }
 
 
